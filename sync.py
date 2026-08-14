@@ -69,11 +69,15 @@ def sync_meta():
 
 # ============ GOOGLE ADS ============
 def sync_google():
-    dev_token = os.environ.get("GOOGLE_ADS_DEVELOPER_TOKEN")
-    client_id = os.environ.get("GOOGLE_ADS_CLIENT_ID")
-    client_secret = os.environ.get("GOOGLE_ADS_CLIENT_SECRET")
-    refresh_token = os.environ.get("GOOGLE_ADS_REFRESH_TOKEN")
-    customer_id = os.environ.get("GOOGLE_ADS_CUSTOMER_ID")
+    # .strip() eh essencial: gRPC (usado pelo Google Ads) rejeita metadata com
+    # espaco/quebra de linha sobrando ("Invalid metadata") — coisa facil de
+    # acontecer ao colar um secret na UI do GitHub. Meta/Ploomes usam REST puro
+    # (requests), que tolera isso, por isso so o Google quebrava.
+    dev_token = (os.environ.get("GOOGLE_ADS_DEVELOPER_TOKEN") or "").strip()
+    client_id = (os.environ.get("GOOGLE_ADS_CLIENT_ID") or "").strip()
+    client_secret = (os.environ.get("GOOGLE_ADS_CLIENT_SECRET") or "").strip()
+    refresh_token = (os.environ.get("GOOGLE_ADS_REFRESH_TOKEN") or "").strip()
+    customer_id = (os.environ.get("GOOGLE_ADS_CUSTOMER_ID") or "").strip()
 
     if not all([dev_token, client_id, client_secret, refresh_token, customer_id]):
         print("[Google] ERRO variaveis de ambiente ausentes")
