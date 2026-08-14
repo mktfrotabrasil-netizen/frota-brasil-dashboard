@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frota Brasil — Marketing ao Vivo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --preto:#08090A;
+    --painel:#131416;
+    --painel-2:#1B1D20;
+    --linha:#2A2D31;
+    --branco:#F5F6F7;
+    --cinza:#8A8F98;
+    --verde:#1FA24A;
+    --verde-glow:rgba(31,162,74,.14);
+    --amarelo:#FFCC00;
+    --amarelo-glow:rgba(255,204,0,.14);
+    --azul:#2957D8;
+    --azul-glow:rgba(41,87,216,.16);
+    --vermelho:#E5484D;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  /* Corrige efeito "fantasma"/traço duplo em texto bold grande (bug conhecido do Chrome
+     com Anton/Montserrat peso alto — ver brand/brand_notes.md) */
+  .hero-value, .plat-name, .brand-text h1, .pm-value{
+    -webkit-text-stroke:.03px currentColor;
+    transform:translateZ(0);
+  }
+  body{
+    background:
+      radial-gradient(1200px 500px at 15% -10%, rgba(31,162,74,.10), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(41,87,216,.12), transparent 55%),
+      var(--preto);
+    color:var(--branco);
+    font-family:'Montserrat',-apple-system,sans-serif;
+    padding:28px 36px 40px;
+    min-height:100vh;
+  }
+  .stripe{
+    height:6px;
+    border-radius:3px;
+    display:flex;
+    overflow:hidden;
+    margin-bottom:26px;
+  }
+  .stripe div{flex:1;}
+  .stripe .v{background:var(--verde);}
+  .stripe .a{background:var(--amarelo);}
+  .stripe .z{background:var(--azul);}
+
+  header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:34px;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .brand{display:flex;align-items:center;gap:18px;}
+  .brand img{height:52px;width:auto;display:block;}
+  .brand-text h1{
+    font-family:'Anton',sans-serif;
+    font-size:26px;
+    letter-spacing:1px;
+    line-height:1;
+    text-transform:uppercase;
+  }
+  .brand-text .sub{
+    font-size:12px;
+    color:var(--cinza);
+    letter-spacing:.5px;
+    margin-top:6px;
+    text-transform:uppercase;
+    font-weight:600;
+  }
+  .status{
+    text-align:right;
+    font-size:12px;
+    color:var(--cinza);
+  }
+  .status .live{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--verde);
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    margin-bottom:4px;
+  }
+  .dot{
+    width:7px;height:7px;border-radius:50%;
+    background:var(--verde);
+    box-shadow:0 0 0 0 rgba(31,162,74,.6);
+    animation:pulse 2s infinite;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(31,162,74,.55);}
+    70%{box-shadow:0 0 0 8px rgba(31,162,74,0);}
+    100%{box-shadow:0 0 0 0 rgba(31,162,74,0);}
+  }
+
+  /* HERO */
+  .hero{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:22px;
+  }
+  .hero-card{
+    background:linear-gradient(180deg, var(--painel), var(--painel-2));
+    border:1px solid var(--linha);
+    border-radius:14px;
+    padding:26px 24px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:3px;
+  }
+  .hero-card.spend::before{background:var(--amarelo);}
+  .hero-card.leads::before{background:var(--verde);}
+  .hero-card.ploomes::before{background:var(--verde);}
+  .hero-card.cpa::before{background:var(--azul);}
+  .hero-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:var(--cinza);
+    font-weight:700;
+    margin-bottom:14px;
+  }
+  .hero-value{
+    font-family:'Anton',sans-serif;
+    font-size:44px;
+    line-height:1;
+    letter-spacing:.5px;
+  }
+  .hero-card.spend .hero-value{color:var(--amarelo);}
+  .hero-card.leads .hero-value{color:var(--verde);}
+  .hero-card.ploomes .hero-value{color:var(--verde);}
+  .hero-card.cpa .hero-value{color:var(--azul);}
+  .hero-foot{
+    margin-top:10px;
+    font-size:12px;
+    color:var(--cinza);
+  }
+
+  /* Grid plataformas */
+  .platforms{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin-bottom:18px;
+  }
+  .plat{
+    background:var(--painel);
+    border:1px solid var(--linha);
+    border-radius:14px;
+    padding:22px;
+  }
+  .plat-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .plat-name{
+    font-family:'Anton',sans-serif;
+    font-size:17px;
+    letter-spacing:.5px;
+    text-transform:uppercase;
+  }
+  .plat-badge{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:1px;
+    padding:4px 10px;
+    border-radius:20px;
+    text-transform:uppercase;
+  }
+  .plat.meta .plat-badge{background:rgba(75,139,190,.18); color:#7CB6E0;}
+  .plat.google .plat-badge{background:rgba(234,67,53,.16); color:#F08276;}
+  .plat.tiktok .plat-badge{background:rgba(37,244,238,.14); color:#4DEDE7;}
+
+  .plat-metrics{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+    margin-bottom:16px;
+  }
+  .pm{
+    background:var(--preto);
+    border:1px solid var(--linha);
+    border-radius:8px;
+    padding:12px 14px;
+  }
+  .pm-value{
+    font-family:'Anton',sans-serif;
+    font-size:20px;
+    color:var(--branco);
+  }
+  .pm-label{
+    font-size:10px;
+    color:var(--cinza);
+    text-transform:uppercase;
+    letter-spacing:1px;
+    margin-top:3px;
+    font-weight:600;
+  }
+  .plat-top{
+    border-top:1px solid var(--linha);
+    padding-top:14px;
+  }
+  .plat-top-label{
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--cinza);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .plat-top-name{
+    font-size:13px;
+    font-weight:700;
+    color:var(--branco);
+    margin-bottom:8px;
+    word-break:break-word;
+  }
+  .plat-top-row{
+    display:flex;
+    gap:18px;
+    font-size:12px;
+  }
+  .plat-top-row b{color:var(--amarelo);}
+
+  .empty-note{
+    font-size:11px;
+    color:var(--cinza);
+    font-style:italic;
+    margin-top:4px;
+  }
+
+  footer{
+    text-align:center;
+    margin-top:30px;
+    font-size:11px;
+    color:var(--cinza);
+    letter-spacing:.5px;
+  }
+
+  .error-box{
+    background:#2A0E10;
+    border:1px solid var(--vermelho);
+    color:#FF9C9F;
+    padding:16px 20px;
+    border-radius:10px;
+    margin-bottom:22px;
+    font-size:13px;
+  }
+
+  /* Cadeado de acesso — deterrent, nao seguranca de verdade (site estatico) */
+  #gate{
+    position:fixed; inset:0; z-index:999;
+    background:var(--preto);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:18px;
+  }
+  #gate img{height:56px;}
+  #gate-box{
+    background:var(--painel);
+    border:1px solid var(--linha);
+    border-radius:14px;
+    padding:32px 36px;
+    text-align:center;
+    min-width:280px;
+  }
+  #gate-box h2{
+    font-family:'Anton',sans-serif;
+    font-size:18px;
+    letter-spacing:.5px;
+    margin-bottom:18px;
+    text-transform:uppercase;
+  }
+  #gate-input{
+    width:100%;
+    background:var(--preto);
+    border:1px solid var(--linha);
+    color:var(--branco);
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:16px;
+    text-align:center;
+    margin-bottom:12px;
+    font-family:'Montserrat',sans-serif;
+  }
+  #gate-btn{
+    width:100%;
+    background:var(--verde);
+    color:#08090A;
+    border:none;
+    padding:12px 14px;
+    border-radius:8px;
+    font-weight:800;
+    font-size:13px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+  #gate-err{
+    color:var(--vermelho);
+    font-size:12px;
+    margin-top:10px;
+    min-height:14px;
+  }
+  #content{display:none;}
+
+  @media (max-width: 1000px){
+    .hero{grid-template-columns:repeat(2,1fr);}
+    .platforms{grid-template-columns:1fr;}
+  }
+  @media (max-width: 560px){
+    .hero{grid-template-columns:1fr;}
+    body{padding:20px 16px 30px;}
+    .hero-value{font-size:34px;}
+  }
+</style>
+</head>
+<body>
+
+  <div id="gate">
+    <img src="data:image/png;base64,__LOGO_BASE64__" alt="Frota Brasil">
+    <div id="gate-box">
+      <h2>Acesso ao painel</h2>
+      <input type="password" id="gate-input" placeholder="Senha" autocomplete="off">
+      <button id="gate-btn" onclick="tryUnlock()">Entrar</button>
+      <div id="gate-err"></div>
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="stripe"><div class="v"></div><div class="a"></div><div class="z"></div></div>
+
+    <header>
+      <div class="brand">
+        <img src="data:image/png;base64,__LOGO_BASE64__" alt="Frota Brasil">
+        <div class="brand-text">
+          <h1>Marketing ao Vivo</h1>
+          <div class="sub">Última janela: 24h</div>
+        </div>
+      </div>
+      <div class="status">
+        <div class="live"><span class="dot"></span> ao vivo</div>
+        <div id="timestamp">—</div>
+      </div>
+    </header>
+
+    <div id="error-container"></div>
+
+    <div class="hero" id="hero"></div>
+    <div class="platforms" id="platforms"></div>
+
+    <footer>FROTA BRASIL · painel interno · atualiza a cada 5 min</footer>
+  </div>
+
+<script>
+// Dados embutidos no build (gerados por scripts/sync_dashboard.py a cada sincronização).
+// Recarregar a página inteira (a cada 5min) é o que traz dado novo, porque o
+// arquivo é reescrito no disco pelo sync — não depende de fetch/CORS/servidor.
+const EMBEDDED_DATA = __DASHBOARD_JSON__;
+const REFRESH_MS = 5 * 60 * 1000;
+
+// Cadeado (deterrent, nao seguranca real — site estatico, dado ja vai no HTML)
+const GATE_HASH = "b7173cc9266d5b563820c009b2b9975b3cfac8f6c8416ed6ccf9f3439fb29203";
+
+async function sha256(text){
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,"0")).join("");
+}
+
+async function tryUnlock(){
+  const val = document.getElementById("gate-input").value;
+  const hash = await sha256(val);
+  if(hash === GATE_HASH){
+    localStorage.setItem("fb_dash_unlocked", "1");
+    unlock();
+  }else{
+    document.getElementById("gate-err").textContent = "Senha incorreta";
+  }
+}
+
+function unlock(){
+  document.getElementById("gate").style.display = "none";
+  document.getElementById("content").style.display = "block";
+  load();
+}
+
+document.getElementById("gate-input").addEventListener("keydown", e => {
+  if(e.key === "Enter") tryUnlock();
+});
+
+if(localStorage.getItem("fb_dash_unlocked") === "1"){
+  unlock();
+}
+
+function fmtMoney(v){
+  return new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0}).format(v||0);
+}
+function fmtNum(v){
+  return new Intl.NumberFormat('pt-BR').format(Math.round(v||0));
+}
+
+async function load(){
+  try{
+    if(!EMBEDDED_DATA) throw new Error("Sem dados — rode scripts/sync_dashboard.py");
+    render(EMBEDDED_DATA);
+    document.getElementById("error-container").innerHTML = "";
+  }catch(e){
+    document.getElementById("error-container").innerHTML =
+      `<div class="error-box">${e.message}</div>`;
+  }
+}
+
+function render(d){
+  document.getElementById("timestamp").textContent =
+    "Atualizado " + new Date(d.timestamp).toLocaleString('pt-BR');
+
+  const {meta, google, tiktok, ploomes, totals, top_ad} = d;
+
+  document.getElementById("hero").innerHTML = `
+    <div class="hero-card spend">
+      <div class="hero-label">Gasto Total (24h)</div>
+      <div class="hero-value">${fmtMoney(totals.spend)}</div>
+      <div class="hero-foot">Meta + Google + TikTok</div>
+    </div>
+    <div class="hero-card leads">
+      <div class="hero-label">Leads Totais</div>
+      <div class="hero-value">${fmtNum(totals.leads)}</div>
+      <div class="hero-foot">mídia paga + Ploomes</div>
+    </div>
+    <div class="hero-card ploomes">
+      <div class="hero-label">Leads Ploomes</div>
+      <div class="hero-value">${fmtNum(ploomes.leads)}</div>
+      <div class="hero-foot">${fmtMoney(ploomes.value)} em pipeline</div>
+    </div>
+    <div class="hero-card cpa">
+      <div class="hero-label">CPA Médio</div>
+      <div class="hero-value">${fmtMoney(totals.cpa)}</div>
+      <div class="hero-foot">gasto ÷ leads</div>
+    </div>
+  `;
+
+  document.getElementById("platforms").innerHTML = `
+    <div class="plat meta">
+      <div class="plat-head">
+        <div class="plat-name">Meta Ads</div>
+        <div class="plat-badge">Instagram / Facebook</div>
+      </div>
+      <div class="plat-metrics">
+        <div class="pm"><div class="pm-value">${fmtMoney(meta.spend)}</div><div class="pm-label">Gasto</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(meta.conversions)}</div><div class="pm-label">Conversas</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(meta.impressions)}</div><div class="pm-label">Impressões</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(meta.clicks)}</div><div class="pm-label">Cliques</div></div>
+      </div>
+      <div class="plat-top">
+        <div class="plat-top-label">Top Anúncio</div>
+        <div class="plat-top-name">${top_ad.name}</div>
+        <div class="plat-top-row">
+          <span>Gasto <b>${fmtMoney(top_ad.spend)}</b></span>
+          <span>Conversas <b>${fmtNum(top_ad.conversions)}</b></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="plat google">
+      <div class="plat-head">
+        <div class="plat-name">Google Ads</div>
+        <div class="plat-badge">Pesquisa / PMax</div>
+      </div>
+      <div class="plat-metrics">
+        <div class="pm"><div class="pm-value">${fmtMoney(google.spend)}</div><div class="pm-label">Gasto</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(google.conversions)}</div><div class="pm-label">Conversões</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(google.impressions)}</div><div class="pm-label">Impressões</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(google.clicks)}</div><div class="pm-label">Cliques</div></div>
+      </div>
+      ${google.spend === 0 ? '<div class="empty-note">Sincronização do Google Ads ainda pendente</div>' : ''}
+    </div>
+
+    <div class="plat tiktok">
+      <div class="plat-head">
+        <div class="plat-name">TikTok Ads</div>
+        <div class="plat-badge">Lead Gen</div>
+      </div>
+      <div class="plat-metrics">
+        <div class="pm"><div class="pm-value">${fmtMoney(tiktok.spend)}</div><div class="pm-label">Gasto</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(tiktok.leads)}</div><div class="pm-label">Leads</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(tiktok.impressions)}</div><div class="pm-label">Impressões</div></div>
+        <div class="pm"><div class="pm-value">${fmtNum(tiktok.clicks)}</div><div class="pm-label">Cliques</div></div>
+      </div>
+      ${tiktok.spend === 0 ? '<div class="empty-note">Sincronização do TikTok ainda pendente</div>' : ''}
+    </div>
+  `;
+}
+
+// A cada 5 min recarrega a página inteira do disco (pega dados novos do último sync)
+setInterval(() => location.reload(), REFRESH_MS);
+</script>
+</body>
+</html>
