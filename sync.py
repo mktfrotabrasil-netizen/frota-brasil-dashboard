@@ -109,7 +109,9 @@ def sync_google():
         print(f"[Google] OK spend={spend:.2f}")
         return {"spend": spend, "impressions": impr, "clicks": clicks, "conversions": conv}
     except Exception as e:
-        print(f"[Google] ERRO {e}")
+        import traceback
+        print(f"[Google] ERRO tipo={type(e).__name__} detalhe={e!r}")
+        traceback.print_exc()
         return {"spend": 0, "impressions": 0, "clicks": 0, "conversions": 0}
 
 # ============ PLOOMES ============
