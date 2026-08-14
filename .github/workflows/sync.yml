@@ -19,7 +19,7 @@ jobs:
           python-version: "3.12"
 
       - name: Instala dependencias
-        run: pip install requests google-ads
+        run: pip install requests google-ads==31.1.0
 
       - name: Roda sync
         env:
