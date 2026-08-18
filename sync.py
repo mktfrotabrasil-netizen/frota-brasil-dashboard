@@ -48,7 +48,7 @@ def sync_meta():
             clicks = int(item.get("clicks", 0))
             conv = 0
             for action in item.get("actions", []):
-                if action["action_type"] == "messages_conversation_started_7d":
+                if action["action_type"] == "onsite_conversion.messaging_conversation_started_7d":
                     conv = int(action.get("value", 0))
 
             total_spend += spend
