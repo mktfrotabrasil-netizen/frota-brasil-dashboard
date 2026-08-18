@@ -158,7 +158,7 @@ def load_tiktok():
 
 # ============ BUILD ============
 def main():
-    print(f"[Sync CI] Iniciando - {datetime.now().strftime('%H:%M:%S')}")
+    print(f"[Sync CI] Iniciando (UTC) - {datetime.utcnow().strftime('%H:%M:%S')}")
 
     meta_data, top_ad = sync_meta()
     google_data = sync_google()
@@ -168,8 +168,13 @@ def main():
     total_spend = meta_data["spend"] + google_data["spend"] + tiktok_data.get("spend", 0)
     total_leads = meta_data["conversions"] + google_data["conversions"] + ploomes_leads
 
+    # GitHub Actions roda em UTC — converte pra horario de Brasilia (UTC-3, sem
+    # horario de verao) antes de mostrar no dashboard, senao o "Atualizado as
+    # HH:MM" fica 3h a frente do relogio de quem esta olhando.
+    horario_brasilia = datetime.utcnow() - timedelta(hours=3)
+
     data = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": horario_brasilia.isoformat(),
         "meta": meta_data,
         "google": google_data,
         "tiktok": tiktok_data,
