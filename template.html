@@ -156,7 +156,7 @@
   /* Grid plataformas */
   .platforms{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(2,1fr);
     gap:18px;
     margin-bottom:18px;
   }
@@ -438,7 +438,7 @@ function render(d){
     <div class="hero-card spend">
       <div class="hero-label">Gasto Total (24h)</div>
       <div class="hero-value">${fmtMoney(totals.spend)}</div>
-      <div class="hero-foot">Meta + Google + TikTok</div>
+      <div class="hero-foot">Meta + Google</div>
     </div>
     <div class="hero-card leads">
       <div class="hero-label">Leads Totais</div>
@@ -491,20 +491,6 @@ function render(d){
         <div class="pm"><div class="pm-value">${fmtNum(google.clicks)}</div><div class="pm-label">Cliques</div></div>
       </div>
       ${google.spend === 0 ? '<div class="empty-note">Sincronização do Google Ads ainda pendente</div>' : ''}
-    </div>
-
-    <div class="plat tiktok">
-      <div class="plat-head">
-        <div class="plat-name">TikTok Ads</div>
-        <div class="plat-badge">Lead Gen</div>
-      </div>
-      <div class="plat-metrics">
-        <div class="pm"><div class="pm-value">${fmtMoney(tiktok.spend)}</div><div class="pm-label">Gasto</div></div>
-        <div class="pm"><div class="pm-value">${fmtNum(tiktok.leads)}</div><div class="pm-label">Leads</div></div>
-        <div class="pm"><div class="pm-value">${fmtNum(tiktok.impressions)}</div><div class="pm-label">Impressões</div></div>
-        <div class="pm"><div class="pm-value">${fmtNum(tiktok.clicks)}</div><div class="pm-label">Cliques</div></div>
-      </div>
-      ${tiktok.spend === 0 ? '<div class="empty-note">Sincronização do TikTok ainda pendente</div>' : ''}
     </div>
   `;
 }
